@@ -1,0 +1,42 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Awonapa</title>
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+</head>
+
+<body>
+  <div id="feed-container"></div>
+  <script>
+    $(document).ready(function () {
+      // Menggunakan jQuery untuk melakukan AJAX request
+      $.ajax({
+        url: 'default', // Ganti dengan path sesuai dengan lokasi file feed.atom Anda
+        dataType: 'xml', // Menentukan tipe data yang diharapkan (XML)
+        success: function (data) {
+          // Proses data XML yang diterim a
+          $(data).find('entry').each(function () {
+            // Ambil data yang Anda perlukan dari setiap entri (entry)
+            var title = $(this).find('title').text();
+            var content = $(this).find('content').html();
+            // Tampilkan data ke dalam elemen HTML, misalnya, dalam elemen dengan id "feed-container"
+            $('#feed-container').append(
+              '<div><h2>' + title + '</h2></div>'
+            );
+            $('#feed-container').append(
+              '<div><p>' + content + '</p></div>'
+            );
+          });
+        },
+        error: function () {
+          // Handle error jika terjadi kesalahan dalam melakukan request
+          console.error('Gagal mengambil data feed.atom');
+        }
+      });
+    });
+  </script>
+</body>
+
+</html>
